@@ -1,0 +1,43 @@
+stages:
+  - build
+  - push
+  - deploy
+
+build:
+  stage: build
+  # tags:
+  #   - docker-build
+  script:
+    - echo "Building Docker Image..."
+    - docker --version
+    - docker build -t $CI_REGISTRY_IMAGE .
+
+push:
+  stage: push
+  # tags:
+  #   - docker-build
+  script:
+    - echo "Pushing Docker image to GitLab Container Registry..."
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
+    - docker push "$CI_REGISTRY_IMAGE"
+
+# deploy:
+#   stage: deploy
+#   image: ubuntu:20.04
+#   script:
+#     - echo "Stoping Old Server..."
+#     - docker stop flaskapp && docker rm flaskapp
+#     - echo "Deploying Docker container..."
+#     - docker run --name flaskapp -p 5000:5000 --restart=always -d flaskapp
+#     - docker ps
+    # before_script:
+    # - apt-get update -qq
+    # - apt-get install -qq git
+    # # Setup SSH deploy keys
+    # - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    # - eval $(ssh-agent -s)
+    # - ssh-add <(echo "$RUNNER_SSH_KEY")
+    # - mkdir -p ~/.ssh
+    # - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    # script:
+    # - ssh administrator@185.175.170.24 "cd /etc/cloudcix/docker/ && sudo docker compose pull cop && sudo docker compose up -d cop && sudo docker compose restart nginx2 && exit"

@@ -21,23 +21,9 @@ push:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
     - docker push "$CI_REGISTRY_IMAGE"
 
-# deploy:
-#   stage: deploy
-#   image: ubuntu:20.04
-#   script:
-#     - echo "Stoping Old Server..."
-#     - docker stop flaskapp && docker rm flaskapp
-#     - echo "Deploying Docker container..."
-#     - docker run --name flaskapp -p 5000:5000 --restart=always -d flaskapp
-#     - docker ps
-    # before_script:
-    # - apt-get update -qq
-    # - apt-get install -qq git
-    # # Setup SSH deploy keys
-    # - 'which ssh-agent || ( apt-get install -qq openssh-client )'
-    # - eval $(ssh-agent -s)
-    # - ssh-add <(echo "$RUNNER_SSH_KEY")
-    # - mkdir -p ~/.ssh
-    # - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    # script:
-    # - ssh administrator@185.175.170.24 "cd /etc/cloudcix/docker/ && sudo docker compose pull cop && sudo docker compose up -d cop && sudo docker compose restart nginx2 && exit"
+deploy:
+  stage: deploy
+  script:
+    # - ssh tls@192.168.1.200 "cd ./flaskapp && docker login -u '$CI_REGISTRY_USER' -p '$CI_JOB_TOKEN' '$CI_REGISTRY' && 
+    #   docker compose pull flask-ui && docker compose up -d flask-ui && exit"
+    - ssh tls@192.168.1.200 "cd ./flaskapp && docker compose pull flask-ui && docker compose up -d flask-ui && exit"    

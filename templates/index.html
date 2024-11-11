@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo UI App</title>
+    <script>
+        function fetchResponse(endpoint) {
+            fetch(`/api/${endpoint}`)
+                .then(response => response.json())
+                .then(data => {
+                    const message = data.message || data.error || "No message returned";
+                    document.getElementById('response').innerText = message;
+                })
+                .catch(error => {
+                    document.getElementById('response').innerText = 'Error: ' + error;
+                });
+        }
+        function fetchResponse1() {
+        fetch(`/api/three_scale`)
+            .then(response => response.json())
+            .then(data => {
+                const message = data.message || data.error || "No message returned";
+                document.getElementById('response').innerText = message;
+            })
+            .catch(error => {
+                document.getElementById('response').innerText = 'Error: ' + error;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Demo UI App</h1>
+    <button onclick="fetchResponse('hello')">Hello</button>
+    <button onclick="fetchResponse('goodbye')">Goodbye</button>
+    <button onclick="fetchResponse('test1')">Test1</button>
+    <button onclick="fetchResponse('test2')">Test2</button>
+    <button onclick="fetchResponse1()">3Scale Testing</button>
+    
+    <h2>Response:</h2>
+    <p id="response"></p>
+</body>
+</html>

@@ -24,6 +24,5 @@ push:
 deploy:
   stage: deploy
   script:
-    # - ssh tls@192.168.1.200 "cd ./flaskapp && docker login -u '$CI_REGISTRY_USER' -p '$CI_JOB_TOKEN' '$CI_REGISTRY' && 
-    #   docker compose pull flask-ui && docker compose up -d flask-ui && exit"
-    - ssh tls@192.168.1.200 "cd ./flaskapp && docker compose pull flask-ui && docker compose up -d flask-ui && exit"    
+    - ssh tls@192.168.1.200 "cd ./flaskapp && docker login -u '$CI_REGISTRY_USER' -p '$CI_JOB_TOKEN' '$CI_REGISTRY' && 
+      docker compose pull flask-ui && docker compose up -d flask-ui && exit"
